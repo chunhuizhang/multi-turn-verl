@@ -92,7 +92,7 @@ class AsyncSGLangRollout(BaseRollout):
         """
         super().__init__()
         self.config = config
-
+        # breakpoint()
         tool_list = None
         if config.multi_turn.tool_config_path is not None:
             from omegaconf import OmegaConf
@@ -418,6 +418,8 @@ class AsyncSGLangRollout(BaseRollout):
         finish_reason_type = None
         output = None
 
+        # breakpoint()
+
         current_turns = 0
         while current_turns < self.config.multi_turn.max_turns:
             if _req.state == AsyncRolloutRequestStateEnum.PENDING:
@@ -662,6 +664,7 @@ class AsyncSGLangRollout(BaseRollout):
     def _preprocess_prompt_to_async_rollout_requests(self, prompts: DataProto, n: int) -> list[AsyncRolloutRequest]:
         assert "raw_prompt" in prompts.non_tensor_batch, "need data.return_raw_chat=True, due to no official way do parse_messages"
         req_list = []
+        # breakpoint()
         for data_idx, raw_prompt in enumerate(prompts.non_tensor_batch["raw_prompt"]):
             for rollout_offset in range(n):
                 if self._tool_schemas:

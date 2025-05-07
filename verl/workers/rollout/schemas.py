@@ -95,6 +95,7 @@ class AsyncRolloutRequest(BaseModel):
     }
 
     def get_generation_prompt(self, tokenizer: PreTrainedTokenizer) -> str:
+        # breakpoint()
         return tokenizer.apply_chat_template(  # type: ignore
             conversation=[msg.model_dump() for msg in self.messages],
             tools=[tool.model_dump() for tool in self.tools] if self.tools else None,

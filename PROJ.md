@@ -5,6 +5,7 @@ conda create -n multiturn python==3.10
 conda activate multiturn
 
 pip3 install torch torchvision
+# pip3 install ninja, packaging
 pip3 install flash-attn --no-build-isolation
 git clone git@github.com:chunhuizhang/multi-turn-verl.git
 cd multi-turn-verl
