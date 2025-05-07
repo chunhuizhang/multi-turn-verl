@@ -432,6 +432,7 @@ class RayPPOTrainer:
             assert config.actor_rollout_ref.rollout.temperature > 0, "validation gen temperature should be greater than 0 when enabling do_sample"
 
         # check multi_turn with tool config
+        breakpoint()
         if config.actor_rollout_ref.rollout.multi_turn.enable:
             assert config.actor_rollout_ref.rollout.multi_turn.tool_config_path is not None, "tool_config_path must be set when enabling multi_turn with tool, due to no role-playing support"
             assert config.algorithm.adv_estimator in [AdvantageEstimator.GRPO], "only GRPO is tested for multi-turn with tool"
@@ -474,7 +475,8 @@ class RayPPOTrainer:
         self.val_dataloader = StatefulDataLoader(
             dataset=self.val_dataset,
             batch_size=val_batch_size,
-            num_workers=self.config.data.get("dataloader_num_workers", 8),
+            # num_workers=self.config.data.get("dataloader_num_workers", 8),
+            num_workers=0,
             shuffle=False,
             drop_last=False,
             collate_fn=collate_fn,

@@ -158,6 +158,7 @@ class RLHFDataset(Dataset):
         """
         Note that we also return the raw_input_ids so that it can be combined with other chat template
         """
+        # breakpoint()
         row_dict: dict = self.dataframe[item]
         messages = self._build_messages(row_dict)
         model_inputs = {}
