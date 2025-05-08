@@ -9,18 +9,23 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=64
 #SBATCH --gres=gpu:4
-#SBATCH -t 48:00:00
+#SBATCH -t 24:00:00
 
 set -x
 
-
 export HYDRA_FULL_ERROR=1
 ulimit -n 131072
+
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate multiturn
+cd /home/zhangchunhui/scratch/exps/multi-turn-verl
 
 PROJECT_DIR="$(pwd)"
 CONFIG_PATH="$PROJECT_DIR/examples/sglang_multiturn/config"
 
 python3 -m verl.trainer.main_ppo \
+    data.train_files=$HOME/data/gsm8k/train.parquet \
+    data.val_files=$HOME/data/gsm8k/test.parquet \
     --config-path="$CONFIG_PATH" \
     --config-name='gsm8k_multiturn_grpo' \
     algorithm.adv_estimator=grpo \
@@ -64,7 +69,5 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.ref.log_prob_max_token_len_per_gpu=8192 \
     critic.ppo_max_token_len_per_gpu=8192 \
     critic.forward_max_token_len_per_gpu=8192 \
-    data.train_files=$HOME/data/gsm8k/train.parquet \
-    data.val_files=$HOME/data/gsm8k/test.parquet \
     actor_rollout_ref.rollout.multi_turn.tool_config_path="$PROJECT_DIR/examples/sglang_multiturn/config/tool_config/gsm8k_tool_config.yaml" 2>&1 | tee logs/gsm8k_multiturn_qwen_3b_$(date +%m%d_%H%M).log \
     $@
