@@ -146,6 +146,9 @@ def compute_grpo_outcome_advantage(
         bsz = scores.shape[0]
         for i in range(bsz):
             id2score[index[i]].append(scores[i])
+
+        print(f'[GRPO group rewards]\n{np.array([np.stack([tensor.numpy() for tensor in value]) for value in id2score.values()])}')
+        
         for idx in id2score:
             if len(id2score[idx]) == 1:
                 id2mean[idx] = torch.tensor(0.0)

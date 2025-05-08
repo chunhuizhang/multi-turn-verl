@@ -90,7 +90,7 @@ class NaiveRewardManager:
 
             if already_print_data_sources[data_source] < self.num_examine:
                 already_print_data_sources[data_source] += 1
-                
+
                 print("[prompt]")
                 print(prompt_str)
                 print('=' * 100)
@@ -100,6 +100,7 @@ class NaiveRewardManager:
                 print("[ground_truth]")
                 print(ground_truth)
                 print('=' * 100)
+                
                 if isinstance(score, dict):
                     for key, value in score.items():
                         print(f"[{key}]", value)
