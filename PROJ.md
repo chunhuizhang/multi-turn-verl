@@ -24,7 +24,7 @@ pip install debugpy==1.8.0
 
 ```
 cd examples/data_preprocess
-python3 gsm8k.py
+python3 gsm8k_multiturn_w_tool.py
 
 cd multi-turn-verl
 bash examples/sglang_multiturn/run_qwen2.5-3b_gsm8k_multiturn.sh
