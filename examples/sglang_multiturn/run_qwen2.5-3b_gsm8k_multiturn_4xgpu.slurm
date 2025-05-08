@@ -57,8 +57,8 @@ python3 -m verl.trainer.main_ppo \
     algorithm.use_kl_in_reward=False \
     trainer.critic_warmup=0 \
     trainer.logger=['console','wandb'] \
-    trainer.project_name='gsm8k_async_rl_debug' \
-    trainer.experiment_name='gsm8k-multi-w-tool-verify-n16-4cards-debug' \
+    trainer.project_name='gsm8k_async_rl' \
+    trainer.experiment_name='gsm8k-multi-w-tool-verify-n16-4cards' \
     trainer.n_gpus_per_node=4 \
     trainer.nnodes=1 \
     trainer.save_freq=-1 \
