@@ -9,7 +9,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=64
 #SBATCH --gres=gpu:4
-#SBATCH -t 24:00:00
+#SBATCH -t 36:00:00
 
 set -x
 
@@ -63,7 +63,7 @@ python3 -m verl.trainer.main_ppo \
     trainer.nnodes=1 \
     trainer.save_freq=-1 \
     trainer.test_freq=5 \
-    trainer.total_epochs=5 \
+    trainer.total_epochs=15 \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu=8192 \
     actor_rollout_ref.rollout.log_prob_max_token_len_per_gpu=8192 \
     actor_rollout_ref.ref.log_prob_max_token_len_per_gpu=8192 \
