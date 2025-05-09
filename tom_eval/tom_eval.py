@@ -5,6 +5,7 @@ import torch
 from vllm import LLM, SamplingParams  
 from datasets import load_dataset
 import re
+from transformers import AutoTokenizer
 
 
 def generate(llm, prompts, use_tqdm=False, args=None):    
@@ -28,11 +29,10 @@ def compute_score(resp, answer):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-
-    parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-7B-Instruct/global_step_24")
+    parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-3B-Instruct/global_step_24")
     parser.add_argument("--data_path", type=str, default="./tom_eval/tom_eval_datasets.csv")
     parser.add_argument("--max_model_len", type=int, default=1024*2)
-    parser.add_argument("--max_tokens", type=int, default=10)
+    parser.add_argument("--max_tokens", type=int, default=20)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--n", type=int, default=1)
 
@@ -41,19 +41,26 @@ if __name__ == "__main__":
     model_id = re.sub(r'\.', '-', re.search(r'tom_sft_(.*?)/global_step', args.ckpt_path).group(1))
     step = int(re.search(r'global_step_(\d+)', args.ckpt_path).group(1))
 
-
     eval_ds = load_dataset("csv", data_files=args.data_path)["train"]
 
     llm = LLM(
         model=args.ckpt_path,
+        # model='/data/hf/zch/checkpoints',
         trust_remote_code=True,
         tensor_parallel_size=1,
         max_model_len=args.max_model_len,
     )
-    llm.llm_engine.tokenizer.eos_token_id = 151643
+
+    tokenizer = AutoTokenizer.from_pretrained(args.ckpt_path)
+    # tokenizer = AutoTokenizer.from_pretrained('/data/hf/zch/checkpoints')
+
+    # llm.llm_engine.tokenizer.eos_token_id = 151643
+
     prompts = []
     for example in eval_ds:
-        prompt = f"Story: {example['story']}\nQuestion: {example['question']}"
+        question = f"Story: {example['story']}\nQuestion: {example['question']}"
+        message = [{"role": "user", "content": question}]
+        prompt = tokenizer.apply_chat_template(message, add_generation_prompt=True, tokenize=False)
         prompts.append(prompt)
 
     responses = generate(llm, prompts, use_tqdm=True, args=args)
