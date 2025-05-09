@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
 
-    parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-3B-Instruct/global_step_24")
+    parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-7B-Instruct/global_step_24")
     parser.add_argument("--data_path", type=str, default="./tom_eval/tom_eval_datasets.csv")
     parser.add_argument("--max_model_len", type=int, default=1024*2)
     parser.add_argument("--max_tokens", type=int, default=10)
