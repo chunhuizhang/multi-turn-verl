@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
 
-    parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-0.5B-Instruct/global_step_24")
+    parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-3B-Instruct/global_step_24")
     parser.add_argument("--data_path", type=str, default="./tom_eval/tom_eval_datasets.csv")
     parser.add_argument("--max_model_len", type=int, default=1024*2)
     parser.add_argument("--max_tokens", type=int, default=10)
@@ -50,6 +50,7 @@ if __name__ == "__main__":
         tensor_parallel_size=1,
         max_model_len=args.max_model_len,
     )
+    # llm.llm_engine.tokenizer.eos_token_id = 
     prompts = []
     for example in eval_ds:
         prompt = f"Story: {example['story']}\nQuestion: {example['question']}"
