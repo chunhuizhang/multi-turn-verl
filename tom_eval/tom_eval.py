@@ -20,7 +20,7 @@ def compute_score(resp, answer):
     try:
         resp = resp.lower().strip()
         answer = answer.lower().strip()
-        return resp.startswith(answer)
+        return int(resp.startswith(answer))
     except:
         print(f"Error: {resp} {answer}")
         return 0
@@ -31,12 +31,16 @@ if __name__ == "__main__":
 
     parser.add_argument("--ckpt_path", type=str, default="./checkpoints/tom_sft_Qwen2.5-3B-Instruct/global_step_24")
     parser.add_argument("--data_path", type=str, default="./tom_eval/tom_eval_datasets.csv")
+    # save_dir
+    parser.add_argument("--save_dir", type=str, default="./tom_eval/results")
     parser.add_argument("--max_model_len", type=int, default=1024*2)
     parser.add_argument("--max_tokens", type=int, default=20)
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--n", type=int, default=1)
 
     args = parser.parse_args()
+
+    os.makedirs(args.save_dir, exist_ok=True)
 
     model_id = re.sub(r'\.', '-', re.search(r'tom_sft_(.*?)/global_step', args.ckpt_path).group(1))
     step = int(re.search(r'global_step_(\d+)', args.ckpt_path).group(1))
@@ -78,5 +82,6 @@ if __name__ == "__main__":
 
     print(f"Total score: {total_score / len(responses)}")
     results_df = pd.DataFrame(results)
-    
-    results_df.to_csv(f"{model_id}_step_{step}_results.csv", index=False, encoding="utf-8-sig")
+    results_df.to_csv(os.path.join(args.save_dir, f"{model_id}_step_{step}_results.csv"), 
+                      index=False, 
+                      encoding="utf-8-sig")
