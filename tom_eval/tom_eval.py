@@ -42,7 +42,7 @@ if __name__ == "__main__":
     step = int(re.search(r'global_step_(\d+)', args.ckpt_path).group(1))
 
 
-    eval_ds = load_dataset("csv", data_files="tom_eval_dataset.csv")["train"]
+    eval_ds = load_dataset("csv", data_files=args.data_path)["train"]
 
     llm = LLM(
         model=args.ckpt_path,
