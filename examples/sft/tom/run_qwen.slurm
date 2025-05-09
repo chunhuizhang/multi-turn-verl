@@ -3,7 +3,7 @@
 #SBATCH -o logs/slurm-%j.out
 #SBATCH -e logs/slurm-%j.err
 #SBATCH -p HGX,DGX
-#SBATCH --mem=128G
+#SBATCH --mem=64G
 #SBATCH --qos=lv1
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
