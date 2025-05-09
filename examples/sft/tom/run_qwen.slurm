@@ -15,4 +15,4 @@ source ~/anaconda3/etc/profile.d/conda.sh
 conda activate multiturn
 cd /home/zhangchunhui/scratch/exps/multi-turn-verl
 
-bash run_qwen.sh
+bash ./examples/sft/tom/run_qwen.sh
