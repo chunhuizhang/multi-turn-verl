@@ -50,7 +50,7 @@ if __name__ == "__main__":
         tensor_parallel_size=1,
         max_model_len=args.max_model_len,
     )
-    # llm.llm_engine.tokenizer.eos_token_id = 
+    llm.llm_engine.tokenizer.eos_token_id = 151643
     prompts = []
     for example in eval_ds:
         prompt = f"Story: {example['story']}\nQuestion: {example['question']}"
