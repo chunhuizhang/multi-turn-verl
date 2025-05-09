@@ -60,12 +60,12 @@ if __name__ == "__main__":
     total_score = 0
     results = []
     for resp, example in zip(responses, eval_ds):
-        score = compute_score(resp, example["answer"])
+        score = compute_score(resp[0], example["answer"])
         total_score += score
-        example['response'] = resp
+        example['response'] = resp[0]
         example["score"] = score
         results.append(example)
-        print(f'score: {score} resp: {resp} answer: {example["answer"]}')
+        print(f'score: {score} resp: {resp[0]} answer: {example["answer"]}')
         print('-'*100)
 
     print(f"Total score: {total_score / len(responses)}")
